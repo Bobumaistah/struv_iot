@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:struviot_apps/pages/get_started.dart';
-import 'common/util.dart';
+import 'package:struviot_apps/utils/app_colors.dart';
+import 'package:struviot_apps/utils/app_text.dart';
+
+import 'features/presentation/routes/routes.dart';
 
 void main() {
   runApp(const MyApp());
@@ -12,15 +14,20 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
       debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
+      title: 'STRUV',
       theme: ThemeData(
-        colorScheme: kColorScheme,
         useMaterial3: true,
-        textTheme: kTextTheme,
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: AppColors.primary,
+          brightness: Brightness.light,
+        ),
+        textTheme: myTextTheme,
       ),
-      home: const GetStartedPage(),
+      routerDelegate: router.routerDelegate,
+      routeInformationParser: router.routeInformationParser,
+      routeInformationProvider: router.routeInformationProvider,
     );
   }
 }
