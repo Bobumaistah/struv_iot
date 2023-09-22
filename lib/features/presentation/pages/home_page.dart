@@ -1,14 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:struviot_apps/features/presentation/widgets/dryen_card_widget.dart';
 import 'package:struviot_apps/utils/app_colors.dart';
 
+import '../../mqtt_services/mqtt_service.dart';
 import '../widgets/add_new_card_widget.dart';
-import '../widgets/dryen_card_widget.dart';
 import '../widgets/reactor_card_widget.dart';
 import '../widgets/sort_card_widget.dart';
 import '../widgets/status_monitoring_widget.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  MQTTClientManager mqttClientManager = MQTTClientManager();
+
+  @override
+  void initState() {
+    super.initState();
+    mqttClientManager.connect();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -70,19 +84,31 @@ class HomePage extends StatelessWidget {
             const SizedBox(height: 25),
             Row(
               children: [
-                SizedBox(
-                  width: width * 0.45,
-                  child: const ReactorCardWidget(
-                    statusColor: AppColors.contentColorYellow,
-                  ),
+                ValueListenableBuilder<String>(
+                  builder: (_, value, child) {
+                    return SizedBox(
+                      width: width * 0.45,
+                      child: ReactorCardWidget(
+                        statusColor: AppColors.contentColorYellow,
+                        status: value,
+                      ),
+                    );
+                  },
+                  valueListenable: mqttClientManager.reactorStatus,
                 ),
                 const Spacer(),
-                SizedBox(
-                  width: width * 0.45,
-                  child: const SortCardWidget(
-                    statusColor: AppColors.contentColorGreen,
-                  ),
-                ),
+                ValueListenableBuilder<double>(
+                  builder: (_, value, child) {
+                    return SizedBox(
+                      width: width * 0.45,
+                      child: SortCardWidget(
+                        statusColor: AppColors.contentColorGreen,
+                        data: value.toStringAsFixed(1),
+                      ),
+                    );
+                  },
+                  valueListenable: mqttClientManager.sortWeight,
+                )
               ],
             ),
             const SizedBox(height: 10),
@@ -90,7 +116,32 @@ class HomePage extends StatelessWidget {
               children: [
                 SizedBox(
                   width: width * 0.45,
-                  child: const DryenCardWidget(),
+                  child: DryenCardWidget(
+                    tempWiget: ValueListenableBuilder<double>(
+                      builder: (_, value, child) {
+                        return Text(
+                          "${value.toStringAsFixed(0)}\u00B0C",
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodySmall!
+                              .copyWith(color: AppColors.contentColorWhite),
+                        );
+                      },
+                      valueListenable: mqttClientManager.dryenTemp,
+                    ),
+                    weightWiget: ValueListenableBuilder<double>(
+                      builder: (_, value, child) {
+                        return Text(
+                          "${value.toStringAsFixed(1)} Kg",
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodySmall!
+                              .copyWith(color: AppColors.contentColorWhite),
+                        );
+                      },
+                      valueListenable: mqttClientManager.dryenWeight,
+                    ),
+                  ),
                 ),
                 const Spacer(),
                 SizedBox(

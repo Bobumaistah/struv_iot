@@ -6,9 +6,11 @@ class SortCardWidget extends StatelessWidget {
   const SortCardWidget({
     super.key,
     required this.statusColor,
+    required this.data,
   });
 
   final Color statusColor;
+  final String data;
 
   @override
   Widget build(BuildContext context) {
@@ -93,7 +95,7 @@ class SortCardWidget extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              "3.4 Kg",
+                              "$data Kg",
                               style: Theme.of(context)
                                   .textTheme
                                   .bodySmall!

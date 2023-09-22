@@ -4,7 +4,12 @@ import 'package:struviot_apps/utils/app_colors.dart';
 class DryenCardWidget extends StatelessWidget {
   const DryenCardWidget({
     super.key,
+    required this.tempWiget,
+    required this.weightWiget,
   });
+
+  final Widget tempWiget;
+  final Widget weightWiget;
 
   @override
   Widget build(BuildContext context) {
@@ -55,13 +60,7 @@ class DryenCardWidget extends StatelessWidget {
                           scale: 5,
                         ),
                         const SizedBox(height: 6),
-                        Text(
-                          "40\u00B0C",
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodySmall!
-                              .copyWith(color: AppColors.contentColorWhite),
-                        ),
+                        tempWiget
                       ],
                     ),
                   ),
@@ -82,13 +81,7 @@ class DryenCardWidget extends StatelessWidget {
                           scale: 5,
                         ),
                         const SizedBox(height: 6),
-                        Text(
-                          "5.5 Kg",
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodySmall!
-                              .copyWith(color: AppColors.contentColorWhite),
-                        ),
+                        weightWiget
                       ],
                     ),
                   ),

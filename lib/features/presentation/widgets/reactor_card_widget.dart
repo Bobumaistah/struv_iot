@@ -5,9 +5,11 @@ class ReactorCardWidget extends StatelessWidget {
   const ReactorCardWidget({
     super.key,
     required this.statusColor,
+    required this.status,
   });
 
   final Color statusColor;
+  final String status;
 
   @override
   Widget build(BuildContext context) {
@@ -97,7 +99,7 @@ class ReactorCardWidget extends StatelessWidget {
                             ),
                             const SizedBox(width: 5),
                             Text(
-                              "ON",
+                              status,
                               style: Theme.of(context)
                                   .textTheme
                                   .bodySmall!
