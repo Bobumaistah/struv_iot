@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:struviot_apps/utils/app_colors.dart';
+import '../../../utils/app_colors.dart';
 
 class AddNewCardWidget extends StatelessWidget {
   const AddNewCardWidget({
